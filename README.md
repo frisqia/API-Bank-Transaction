@@ -5,27 +5,27 @@
 
 -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) UNIQUE NOT NULL,
     email VARCHAR(255) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    update_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);  
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
 - accounts
 
 -------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS accounts (
+CREATE TABLE accounts (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
+    user_id INT NOT NULL,
     account_type VARCHAR(255) NOT NULL,
     account_number VARCHAR(255) UNIQUE NOT NULL,
-    balance DECIMAL(10, 2) NOT NULL,
+    balance DECIMAL(10,2) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    update_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -33,11 +33,11 @@ CREATE TABLE IF NOT EXISTS accounts (
 
 -------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS transactions (
+CREATE TABLE transactions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     from_account_id INT,
     to_account_id INT,
-    amount DECIMAL(10, 2) NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
     type VARCHAR(255) NOT NULL,
     description VARCHAR(255),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,

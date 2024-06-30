@@ -11,6 +11,7 @@ virtualenv = "*"
 sqlalchemy = "*"
 flask-login = "*"
 bcrypt = "*"
+flask-jwt-extended = "*"
 
 [dev-packages]
 
