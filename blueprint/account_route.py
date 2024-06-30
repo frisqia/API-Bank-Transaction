@@ -1,10 +1,11 @@
 from flask import Blueprint
-from controller.account_controller import test_account, fetch_account
+from controller.account_controller import test_account, fetch_account, insert_account
 
 account_bp = Blueprint('accounts', __name__)
 
 account_bp.route('/account', methods=['GET'])(test_account)
 account_bp.route('/accounts', methods=['GET'])(fetch_account)
+account_bp.route('/accounts', methods=['POST'])(insert_account)
 
 # GET /accounts: Retrieve a list of all accounts belonging to the currently authenticated user.
 # GET /accounts/:id: Retrieve details of a specific account by its ID. (Authorization required for accoynt owner).

@@ -1,6 +1,7 @@
 from flask import request
 from connectors.mysql_connector import connection
 from Models.accounts import Account
+from Models.users import User
 from sqlalchemy import select
 from sqlalchemy.orm import sessionmaker
 
@@ -32,3 +33,21 @@ def fetch_account():
         print(e)
         return{'message':'Fail to fetch accounts'},500
     
+def insert_account():
+    Session = sessionmaker(connection)
+    s = Session()
+    s.begin()
+    try:
+        NewAccount = Account(
+            user_id=request.form['user_id'],
+            account_type=request.form['account_type'],
+            account_number=request.form['account_number'],
+            balance=request.form['balance']
+        )
+        s.add(NewAccount)
+        s.commit()
+    except Exception as c:
+        print(c)
+        s.rollback()
+        return{'message':'Fail to create account'}, 500
+    return {'message':'succes creste account'},200

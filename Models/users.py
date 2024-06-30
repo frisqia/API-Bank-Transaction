@@ -3,7 +3,6 @@ from sqlalchemy.orm import mapped_column, relationship
 from sqlalchemy import Integer, String, DateTime
 from sqlalchemy.sql import func
 
-
 from flask_login import UserMixin
 
 import bcrypt
@@ -19,7 +18,7 @@ class User(Base,UserMixin):
     created_at = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
-    accounts = relationship('Account', cascade='all')
+    accounts = relationship('Account', cascade='all, delete-orphan')
 
     # password yang sudah di encript
     def set_password(self, password):
