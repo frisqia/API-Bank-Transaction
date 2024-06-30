@@ -1,4 +1,4 @@
-#basis model
+#basis
 
 from sqlalchemy.orm import DeclarativeBase
 

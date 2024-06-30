@@ -42,9 +42,10 @@ def search_user():
                 'ID' : row.id,
                 'Name' : row.username,
                 'Email' : row.email,
-                'Register Time' : row.created_at
+                'Register Time' : row.created_at,
+                'Update Time' : row.updated_at
             })
-            print(f'ID: {row.id}, Name: {row.username}, Email: {row.email}, Register Time: {row.created_at}')
+            print(f'ID: {row.id}, Name: {row.username}, Email: {row.email}, Register Time: {row.created_at}, Updated Time: {row.updated_at}')
         return{
             'users':user
         }
