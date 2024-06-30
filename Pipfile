@@ -12,6 +12,8 @@ sqlalchemy = "*"
 flask-login = "*"
 bcrypt = "*"
 flask-jwt-extended = "*"
+python-dotenv = "*"
+mysql-connector-python = "*"
 
 [dev-packages]
 
