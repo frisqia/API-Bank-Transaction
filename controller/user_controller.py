@@ -52,7 +52,21 @@ def search_user():
         print(e)
         return{'message': 'Fail to Register'}, 500
     
-def Update_user():
-    try
+def Update_user(id):
+    session= sessionmaker(connection)
+    s = session()
+    s.begin()
+    try:
+        update_data = s.query(User).filter(User.id == id).first()
+
+        update_data.username = request.form['username']
+        update_data.email = request.form['email']
+        update_data.set_password(request.form['password'])
+        s.commit()
         
-    except
+    except Exception as c:
+        print(c)
+        s.rollback()
+        return{'message':'fail to update'},500
+    return{'message':'succes update data'},200
+        
