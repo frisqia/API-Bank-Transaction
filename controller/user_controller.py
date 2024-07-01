@@ -4,10 +4,11 @@ from Models.users import User
 from connectors.mysql_connector import (connection)
 from sqlalchemy.orm import sessionmaker
 
+from flask_login import login_user, logout_user
+
 def test_user():
     return 'user'
 
-# register
 def register_user():
     Session = sessionmaker(connection)
     s = Session()
@@ -40,8 +41,41 @@ def register_user():
         return{'message': 'Fail to Register'}, 500
     finally:
         s.close()
+
+def user_login():
+    Session = sessionmaker(connection)
+    s = Session()
+    s.begin()
+
+    try:
+        login = request.form['login']
+        password = request.form['password']
+
+        user = s.query(User).filter((User.email == login) | (User.username == login)).first()
+
+        if user is None:
+            return {"message": "User not found"}, 403
+
+        if not user.check_password(password):
+            return {"message": "Invalid password"}, 403
+        
+        return {"message": "Login successful", "user": {
+            "ID": user.id,
+            "Name": user.username,
+            "Email": user.email,
+            "Register Time": user.created_at,
+            "Update Time": user.updated_at
+        }}, 200
+    
     
 
+    except Exception as e:
+        print(e)
+        s.rollback()
+        return {"message": "Fail to login"}, 500
+    finally:
+        s.close()
+    
 def search_user():
     Session = sessionmaker(connection)
     s = Session()                                                                              

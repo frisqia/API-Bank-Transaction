@@ -26,7 +26,7 @@ class User(Base,UserMixin):
 
     # check hashingnya/ membandingkan password yang sudah di input dengan password yang atersimpan
     def check_password(self, password):
-        return bcrypt.checkpw(password.encode('utf-8'), self.password_hash.encode('utf-8'))
+        return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
 
 # id:(INT,Primary Key) unique identifier for the user
 # unsername:(VARCHAR(255),unique) Unsername for login
