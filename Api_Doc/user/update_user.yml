@@ -1,0 +1,31 @@
+Setting Profile
+---
+tags:
+  - Users
+summary: Update user data
+parameters:
+  - in: path
+    name: id
+    type: integer
+    required: true
+    description: User ID
+  - in: formData
+    name: username
+    type: string
+    required: true
+    description: New username
+  - in: formData
+    name: email
+    type: string
+    required: true
+    description: New email
+  - in: formData
+    name: password
+    type: string
+    required: true
+    description: New password
+responses:
+  200:
+    description: User data updated successfully
+  500:
+    description: Fail to update user data

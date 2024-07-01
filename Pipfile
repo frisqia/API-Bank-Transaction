@@ -14,6 +14,7 @@ bcrypt = "*"
 flask-jwt-extended = "*"
 python-dotenv = "*"
 mysql-connector-python = "*"
+flasgger = "*"
 
 [dev-packages]
 

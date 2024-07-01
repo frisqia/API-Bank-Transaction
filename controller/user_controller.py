@@ -4,11 +4,19 @@ from Models.users import User
 from connectors.mysql_connector import (connection)
 from sqlalchemy.orm import sessionmaker
 
+
 from flask_login import login_user, logout_user
 
+from flasgger import swag_from
+import os
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+@swag_from(os.path.join(current_dir, '..', 'Api_Doc','user', 'test_user.yml'))
 def test_user():
     return 'user'
 
+
+@swag_from(os.path.join(current_dir, '..', 'Api_Doc','user', 'register_user.yml'))
 def register_user():
     Session = sessionmaker(connection)
     s = Session()
@@ -44,6 +52,8 @@ def register_user():
     finally:
         s.close()
 
+
+@swag_from(os.path.join(current_dir, '..', 'Api_Doc','user', 'login_user.yml'))
 def user_login():
     Session = sessionmaker(connection)
     s = Session()
@@ -86,16 +96,18 @@ def user_login():
         return {"message": "Fail to login"}, 500
     finally:
         s.close()
-    
+
+
+@swag_from(os.path.join(current_dir, '..', 'Api_Doc','user', 'search_user.yml'))
 def search_user():
     Session = sessionmaker(connection)
     s = Session()                                                                              
     try:
-        User_me = select(User)
+        profile = select(User)
         keyword = request.args.get('query')
         if keyword !=None:
-            User_me = User_me.where(User.username.like(f'%{keyword}%'))
-        user_result = s.execute(User_me)
+            profile = profile.where(User.username.like(f'%{keyword}%'))
+        user_result = s.execute(profile)
         user=[]
         for row in user_result.scalars():
             user.append({
@@ -114,7 +126,9 @@ def search_user():
         return{'message': 'Fail to Register'}, 500
     finally:
         s.close()
-    
+
+
+@swag_from(os.path.join(current_dir, '..', 'Api_Doc','user', 'update_user.yml'))   
 def Update_user(id):
     session= sessionmaker(connection)
     s = session()
@@ -146,12 +160,7 @@ def Update_user(id):
         s.close()
 
 
-
+@swag_from(os.path.join(current_dir, '..', 'Api_Doc','user', 'logout_user.yml'))   
 def user_logout():
     logout_user()
     return { "message": "Success logout" }
-
-# def user_logout():
-#     resp = jsonify({'logout':True})
-#     # unset_jwt_cookies()
-#     return resp, 200

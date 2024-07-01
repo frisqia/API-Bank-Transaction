@@ -1,0 +1,8 @@
+Logout
+---
+tags:
+  - Users
+summary: Logout user
+responses:
+  200:
+    description: Logout successful

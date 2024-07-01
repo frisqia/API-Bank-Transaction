@@ -18,6 +18,8 @@ from datetime import timedelta
 
 from dotenv import load_dotenv
 
+from flasgger import Swagger
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -25,6 +27,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)
 
+
+swagger = Swagger(app)
 
 app.register_blueprint(user_bp)
 app.register_blueprint(account_bp)

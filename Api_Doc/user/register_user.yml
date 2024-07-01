@@ -1,0 +1,26 @@
+New User
+---
+tags:
+  - Users
+summary: Register a new user
+parameters:
+  - in: formData
+    name: email
+    type: string
+    required: true
+    description: User's email
+  - in: formData
+    name: username
+    type: string
+    required: true
+    description: User's username
+  - in: formData
+    name: password
+    type: string
+    required: true
+    description: User's password
+responses:
+  201:
+    description: User registered successfully
+  500:
+    description: Fail to register
