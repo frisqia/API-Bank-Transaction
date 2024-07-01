@@ -80,7 +80,7 @@ def insert_account():
 
 def search_account(id):
     Session = sessionmaker(connection)
-    s =Session()
+    s = Session()
     try:
         details = select(Account).where(Account.id == id)
         keyword = request.args.get('query')
