@@ -1,9 +1,9 @@
-from flask import request, jsonify
-from connectors.mysql_connector import connection
+from flask import request
 
 from Models.accounts import Account
 from Models.users import User
 
+from connectors.mysql_connector import connection
 from sqlalchemy import select
 from sqlalchemy.orm import sessionmaker
 
@@ -29,11 +29,14 @@ def fetch_account():
             })
             print(f'ID: {row.id} User: {row.user_id} Type: {row.account_type} Number: {row.account_number} Balance: {row.balance} Register Time {row.created_at} Updated Time {row.updated_at}')
         return{
+            'message': 'all data is',
             'data':accounts
-        }
+        },201
     except Exception as e:
         print(e)
-        return{'message':'Fail to fetch accounts'},500
+        return{'message':'Fail to fetch accounts'},404
+    finally:
+        s.close()
     
 def insert_account():
     Session = sessionmaker(connection)
@@ -63,15 +66,18 @@ def insert_account():
             'Register Time': NewAccount.created_at,
             'Update Time': NewAccount.updated_at
         }
-        return {'message':'succes cresate account', 'created':NewAccount},201
+        return {
+            'message':'succes cresate account',
+            'created':NewAccount
+            },201
     except Exception as c:
         print(c)
         s.rollback()
-        return{'message':'Fail to create account'}, 500
+        return{'message':'Fail to create account'}, 404
     finally:
         s.close()
 
-
+#tanya
 def search_account(id):
     Session = sessionmaker(connection)
     s =Session()
@@ -95,13 +101,20 @@ def search_account(id):
             print(f'ID: {row.user_id} Type: {row.account_type} Number: {row.account_number} Balance: {row.balance} Register Time: {row.created_at} Updated Time: {row.updated_at}')
         
         if accounts:
-            return {'detail': accounts, 'message': 'Data found'}
+            return {
+                'detail': accounts,
+                'message': 'Data found'
+                }
         else:
-            return {'detail': [], 'message': 'No data found for the given user ID or query'}
+            return {
+                'detail': [],
+                'message': 'No data found for the given user ID or query'}
 
     except Exception as a:
         print(a)
         return{'message': 'Fail to Search data'}
+    finally:
+        s.close()
 
 def update_data(id):
     Session = sessionmaker(connection)
@@ -128,12 +141,42 @@ def update_data(id):
             'Update Time': update.updated_at
         }
         
-        return {'message': 'Account updated successfully', 'account': updated_account}, 200
+        return {
+            'message': 'Account updated successfully',
+            'account': updated_account}, 201
 
     except Exception as c:
         print(c)
-        return{'message':'fail to update'},500
+        return{'message':'fail to update'},404
     finally:
         s.close()
     
+def delete_acount(id):
+    Session=sessionmaker(connection)
+    s= Session()
+    s.begin()
+    try:
+        Data= s.query(Account).filter(Account.id == id).first()
 
+        if not Data:
+            return {'message': 'Account not found'}, 404
+
+        user_id = Data.user_id        
+        s.delete(Data)
+        s.commit()
+
+        remaining_accounts = s.query(Account).filter(Account.user_id == user_id).all()
+
+        if not remaining_accounts:
+            user = s.query(User).filter(User.id == user_id).first()
+            if user:
+                s.delete(user)
+                s.commit()
+
+        return{'message':'Success to delete'},201
+    except Exception as c:
+        print(c)
+        s.rollback()
+        return{'message':'fail to delete'},404
+    finally:
+        s.close()

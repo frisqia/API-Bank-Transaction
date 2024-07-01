@@ -16,6 +16,8 @@ class Account(Base):
 
 user = relationship('User', back_populates='accounts')
 
+accounts = relationship('Transaction', cascade='all, delete-orphan')
+
 # id:(INT,Primary Key)Unique identifier for the account.
 # user_id:(INT,Foreign Key references Users.id) User associated with the account
 # account_type:(VARCHAR(255)) Type of account(e.g., checking, savings).

@@ -20,11 +20,26 @@ def register_user():
         register.set_password(request.form['password'])
         s.add(register)
         s.commit()
-        return {'message': 'Register Success'}, 201
+        
+        register = {
+            'ID' : register.id,
+            'Name' : register.username,
+            'Email' : register.email,
+            'Register Time' : register.created_at,
+            'Update Time' : register.updated_at
+
+        }
+
+        return {
+            'message': 'Register Success',
+            'New User': register
+            }, 201
     except Exception as e:
         print(e)
         s.rollback()
         return{'message': 'Fail to Register'}, 500
+    finally:
+        s.close()
     
 
 def search_user():
@@ -52,6 +67,8 @@ def search_user():
     except Exception as e:
         print(e)
         return{'message': 'Fail to Register'}, 500
+    finally:
+        s.close()
     
 def Update_user(id):
     session= sessionmaker(connection)
@@ -64,10 +81,24 @@ def Update_user(id):
         update_data.email = request.form['email']
         update_data.set_password(request.form['password'])
         s.commit()
-        
+
+        New_data = {
+            'ID': update_data.id,
+            'Username': update_data.username,
+            'Email': update_data.email,
+            'Register Time': update_data.created_at,
+            'Update Time': update_data.updated_at
+        }
+        return{
+            'message':'succes update data',
+            'User' : New_data
+            },200
     except Exception as c:
         print(c)
         s.rollback()
         return{'message':'fail to update'},500
-    return{'message':'succes update data'},200
+    finally:
+        s.close()
+    
+
         
