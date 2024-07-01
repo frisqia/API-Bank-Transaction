@@ -1,15 +1,10 @@
-from flask import request,jsonify
+from flask import request
 from sqlalchemy import select
 from Models.users import User
 from connectors.mysql_connector import (connection)
 from sqlalchemy.orm import sessionmaker
 
-
-
-# from flask_login import logout_user
-
-from flask_jwt_extended import create_access_token, jwt_required, unset_jwt_cookies
-
+from flask_login import login_user, logout_user
 
 def test_user():
     return 'user'
@@ -35,6 +30,8 @@ def register_user():
             'Update Time' : register.updated_at
 
         }
+        
+        print(f'ID: {register["ID"]} Name: {register["Name"]} Email: {register["Email"]} Register Time: {register["Register Time"]} Update Time: {register["Update Time"]}')
 
         return {
             'message': 'Register Success',
@@ -63,22 +60,26 @@ def user_login():
 
         if not user.check_password(password):
             return {"message": "Invalid password"}, 403
-        
-        token = create_access_token(identity=user.id, additional_claims={'Name':user.username, 'User':user.id})
 
-        return {
-            "message": "Login successful", 
-            "access": token,
-            "user": {
+        login_user(user)
+        session_id = request.cookies.get('session')  
+        
+        user_info = {
             "ID": user.id,
             "Name": user.username,
             "Email": user.email,
             "Register Time": user.created_at,
             "Update Time": user.updated_at
-        }}, 200
-    
-    
+        }
 
+        print(f'User ID: {user_info["ID"]} Name: {user_info["Name"]} Email: {user_info["Email"]} Register Time: {user_info["Register Time"]} Update Time: {user_info["Update Time"]}')
+
+        return {
+            "message": "Login successful",
+            "session_id": session_id, 
+            "user": user_info
+        }, 200
+            
     except Exception as e:
         print(e)
         s.rollback()
@@ -144,8 +145,13 @@ def Update_user(id):
     finally:
         s.close()
 
-@jwt_required
+
+
 def user_logout():
-    resp = jsonify({'logout':True})
-    unset_jwt_cookies()
-    return resp, 200
+    logout_user()
+    return { "message": "Success logout" }
+
+# def user_logout():
+#     resp = jsonify({'logout':True})
+#     # unset_jwt_cookies()
+#     return resp, 200

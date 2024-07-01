@@ -1,20 +1,23 @@
 from flask import Blueprint
 from controller.account_controller import test_account, fetch_account, insert_account, search_account, update_data, delete_acount
 
-# from flask_jwt_extended import jwt_required
 
-# def login_required(bp):
-#     original_add_url_rule = bp.add_url_rule
 
-#     def new_add_url_rule(rule, endpoint=None, view_func=None, **options):
-#         view_func = jwt_required(view_func)
-#         return original_add_url_rule(rule, endpoint, view_func, **options)
+from flask_login import login_required
 
-#     bp.add_url_rule = new_add_url_rule
-#     return bp
+def login_required_blueprint(bp):
+    original_add_url_rule = bp.add_url_rule
+
+    def new_add_url_rule(rule, endpoint=None, view_func=None, **options):
+        view_func = login_required(view_func)
+        return original_add_url_rule(rule, endpoint, view_func, **options)
+
+    bp.add_url_rule = new_add_url_rule
+    return bp
 
 account_bp = Blueprint('accounts', __name__)
-# account_bp = login_required(account_bp)
+account_bp = login_required_blueprint(account_bp)
+
 
 account_bp.route('/account', methods=['GET'])(test_account)
 account_bp.route('/accounts', methods=['GET'])(fetch_account)

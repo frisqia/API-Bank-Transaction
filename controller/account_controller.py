@@ -66,6 +66,7 @@ def insert_account():
             'Register Time': NewAccount.created_at,
             'Update Time': NewAccount.updated_at
         }
+        print(f'ID: {NewAccount["ID"]} Type: {NewAccount["Type"]} Number: {NewAccount["Number"]} Balance: {NewAccount["Balance"]} Register Time: {NewAccount["Register Time"]} Update Time: {NewAccount["Update Time"]}')
         return {
             'message':'succes cresate account',
             'created':NewAccount
@@ -140,6 +141,8 @@ def update_data(id):
             'Register Time': update.created_at,
             'Update Time': update.updated_at
         }
+        print(f'ID: {updated_account["ID"]} Type: {updated_account["Type"]} Number: {updated_account["Number"]} Balance: {updated_account["Balance"]} Register Time: {updated_account["Register Time"]} Update Time: {updated_account["Update Time"]}')
+
         
         return {
             'message': 'Account updated successfully',

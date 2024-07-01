@@ -23,7 +23,7 @@ load_dotenv()
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)
 
 
 app.register_blueprint(user_bp)

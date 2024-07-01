@@ -55,7 +55,12 @@ CREATE TABLE transactions (
         - Implement functionalities for viewing, initiating, ang managing financial transactions(deposits, withdrawals, transfers).
         - Ensure secure transaction processing and maintain transaction history.
     - Write the API Documentation: Choose either OpenApi/Swagger, Postman, or Markdown formats.
+----------------------------------------------------
 
+Additional Notes:
+- you can add more endpoints to support various functionalities (e.g, bill payments, investment management)
+- Remember to implement appropriate error handling and validation for each endpoint.
+- Consider using appropriate HTTP status codes to indicate success, failure, or specific error conditions.
 
     - ✅Build API using Flask
     - ✅Database Connection

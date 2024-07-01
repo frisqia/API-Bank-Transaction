@@ -86,7 +86,14 @@ def create_transaction():
             'Description': NewTransaction.description,
             'Time': NewTransaction.created_at,
         }
-        return {'message': 'Transaction success', 'transaction': NewTransaction}, 201
+
+        print(f'ID: {NewTransaction['ID']} From Account ID: {NewTransaction['From Account ID']} To Account ID: {NewTransaction['To Account ID']} Amount: {NewTransaction['Amount']} Type: {NewTransaction['Type']} Description: {NewTransaction['Description']} Time: {NewTransaction["Time"]}')
+        return {
+            'message': 'Transaction success',
+            'transaction': NewTransaction
+            }, 201
+    
+
     except Exception as t:
         print(t)
         s.rollback()

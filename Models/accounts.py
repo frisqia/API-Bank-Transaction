@@ -7,7 +7,7 @@ class Account(Base):
     __tablename__ = 'accounts'
 
     id = mapped_column(Integer, primary_key=True, autoincrement=True, unique=True)
-    user_id=mapped_column(Integer, ForeignKey('users.id',ondelete="CASCADE"))
+    user_id=mapped_column(Integer, ForeignKey('users.id',ondelete="CASCADE"), nullable=False)
     account_type=mapped_column(String(255))
     account_number=mapped_column(String(255), unique=True)
     balance=mapped_column(DECIMAL(10,2))
