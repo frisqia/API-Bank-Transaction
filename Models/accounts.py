@@ -1,5 +1,5 @@
 from Models.base import Base
-from sqlalchemy.orm import mapped_column
+from sqlalchemy.orm import mapped_column,relationship
 from sqlalchemy import Integer, String, DateTime, ForeignKey, DECIMAL
 from sqlalchemy.sql import func
 
@@ -10,11 +10,11 @@ class Account(Base):
     user_id=mapped_column(Integer, ForeignKey('users.id',ondelete="CASCADE"))
     account_type=mapped_column(String(255))
     account_number=mapped_column(String(255), unique=True)
-    balance=mapped_column(DECIMAL(255))
+    balance=mapped_column(DECIMAL(10,2))
     created_at=mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at=mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
-
+user = relationship('User', back_populates='accounts')
 
 # id:(INT,Primary Key)Unique identifier for the account.
 # user_id:(INT,Foreign Key references Users.id) User associated with the account
