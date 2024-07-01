@@ -125,7 +125,7 @@ def search_transaction(id):
         else:
             return {
                 'detail': [],
-                'message': 'No data found for the given Transaction ID or query'
+                'message': 'No data found'
             }
 
     except Exception as a:

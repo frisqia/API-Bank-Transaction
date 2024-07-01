@@ -14,7 +14,7 @@ from flask_jwt_extended import JWTManager
 from Models.users import User
 
 from sqlalchemy.orm import sessionmaker
-# from datetime import timedelta
+from datetime import timedelta
 
 from dotenv import load_dotenv
 
@@ -23,7 +23,7 @@ load_dotenv()
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-# app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
 
 
 app.register_blueprint(user_bp)
@@ -41,6 +41,8 @@ def load_user(users_id):
      Session = sessionmaker(connection)
      s = Session()
      return s.query(User).get(int(users_id))
+
+
 
 @app.route('/')
 def hello_world():

@@ -1,4 +1,4 @@
-from flask import request
+from flask import request,jsonify
 from sqlalchemy import select
 from Models.users import User
 from connectors.mysql_connector import (connection)
@@ -8,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 
 # from flask_login import logout_user
 
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt
+from flask_jwt_extended import create_access_token, jwt_required, unset_jwt_cookies
 
 
 def test_user():
@@ -143,8 +143,9 @@ def Update_user(id):
         return{'message':'fail to update'},500
     finally:
         s.close()
-    
-# def user_logout():
-#     jti = get_jwt()['jti']
-#     current_app.blacklist.add(jti)
-#     return {"message": "Successfully logged out"}, 200
+
+@jwt_required
+def user_logout():
+    resp = jsonify({'logout':True})
+    unset_jwt_cookies()
+    return resp, 200
