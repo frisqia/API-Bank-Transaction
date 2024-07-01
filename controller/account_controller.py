@@ -77,7 +77,7 @@ def insert_account():
     finally:
         s.close()
 
-#tanya
+
 def search_account(id):
     Session = sessionmaker(connection)
     s =Session()

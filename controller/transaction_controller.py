@@ -93,3 +93,43 @@ def create_transaction():
         return {'message': 'Failed to create transaction'}, 400
     finally:
         s.close()
+
+def search_transaction(id):
+    Session = sessionmaker(connection)
+    s = Session()
+    try:
+        details = select(Transaction).where(Transaction.id == id)
+        keyword = request.args.get('query')
+        if keyword is not None:
+            details = details.where(Transaction.type.like(f'%{keyword}%'))
+        
+        transactions = s.execute(details)
+        transaction_list = []
+        for row in transactions.scalars():
+            transaction_list.append({
+                'ID': row.id,
+                'From Account ID': row.from_account_id,
+                'To Account ID': row.to_account_id,
+                'Amount': row.amount,
+                'Type': row.type,
+                'Description': row.description,
+                'Time': row.created_at,
+            })
+            print(f'ID: {row.id} From Account ID: {row.from_account_id} To Account ID: {row.to_account_id} Amount: {row.amount} Type: {row.type} Description: {row.description} Time: {row.created_at}')
+        
+        if transaction_list:
+            return {
+                'detail': transaction_list,
+                'message': 'Data found'
+            }
+        else:
+            return {
+                'detail': [],
+                'message': 'No data found for the given Transaction ID or query'
+            }
+
+    except Exception as a:
+        print(a)
+        return {'message': 'Fail to Search data'}
+    finally:
+        s.close()

@@ -1,11 +1,12 @@
 from flask import Blueprint
-from controller.transaction_controller import test_transaction, fetch_transaction, create_transaction
+from controller.transaction_controller import test_transaction, fetch_transaction, create_transaction, search_transaction
 
 transaction_bp = Blueprint('transactions', __name__)
 
 transaction_bp.route('/transaction', methods=['GET'])(test_transaction)
 transaction_bp.route('/transactions', methods=['GET'])(fetch_transaction)
 transaction_bp.route('/transactions', methods=['POST'])(create_transaction)
+transaction_bp.route('/transactions/<id>', methods=['GET'])(search_transaction)
 
 
 
