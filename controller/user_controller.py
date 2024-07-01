@@ -4,7 +4,12 @@ from Models.users import User
 from connectors.mysql_connector import (connection)
 from sqlalchemy.orm import sessionmaker
 
-from flask_login import login_user, logout_user
+
+
+# from flask_login import logout_user
+
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt
+
 
 def test_user():
     return 'user'
@@ -59,7 +64,12 @@ def user_login():
         if not user.check_password(password):
             return {"message": "Invalid password"}, 403
         
-        return {"message": "Login successful", "user": {
+        token = create_access_token(identity=user.id, additional_claims={'Name':user.username, 'User':user.id})
+
+        return {
+            "message": "Login successful", 
+            "access": token,
+            "user": {
             "ID": user.id,
             "Name": user.username,
             "Email": user.email,
@@ -134,5 +144,7 @@ def Update_user(id):
     finally:
         s.close()
     
-
-        
+# def user_logout():
+#     jti = get_jwt()['jti']
+#     current_app.blacklist.add(jti)
+#     return {"message": "Successfully logged out"}, 200
