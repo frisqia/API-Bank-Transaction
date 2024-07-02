@@ -1,0 +1,37 @@
+List Transaction
+
+---
+tags:
+  - Transactions
+summary: Fetch all transactions
+responses:
+  200:
+    description: A list of all transactions
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "all data is"
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              ID:
+                type: integer
+                example: 1
+              Account ID:
+                type: integer
+                example: 123
+              Update ID:
+                type: integer
+                example: 456
+              Amount:
+                type: string
+                example: "100.00"
+              Type:
+                type: string
+responses:
+  400:
+    description: fail to fetch Transaction

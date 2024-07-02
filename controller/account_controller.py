@@ -7,9 +7,17 @@ from connectors.mysql_connector import connection
 from sqlalchemy import select
 from sqlalchemy.orm import sessionmaker
 
+from flasgger import swag_from
+import os
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+
+@swag_from(os.path.join(current_dir, '..', 'Api_Doc','account', 'test_account.yml'))
 def test_account():
     return 'account'
 
+
+@swag_from(os.path.join(current_dir, '..', 'Api_Doc','account', 'fetch_account.yml'))
 def fetch_account():
     account_fetch = select(Account)
     Session = sessionmaker(connection)
@@ -31,13 +39,15 @@ def fetch_account():
         return{
             'message': 'all data is',
             'data':accounts
-        },201
+        },200
     except Exception as e:
         print(e)
-        return{'message':'Fail to fetch accounts'},404
+        return{'message':'Fail to fetch accounts'},400
     finally:
         s.close()
-    
+
+
+@swag_from(os.path.join(current_dir, '..', 'Api_Doc','account', 'insert_account.yml'))
 def insert_account():
     Session = sessionmaker(connection)
     s = Session()
@@ -74,11 +84,12 @@ def insert_account():
     except Exception as c:
         print(c)
         s.rollback()
-        return{'message':'Fail to create account'}, 404
+        return{'message':'Fail to create account'}, 400
     finally:
         s.close()
 
 
+@swag_from(os.path.join(current_dir, '..', 'Api_Doc','account', 'search_account.yml'))
 def search_account(id):
     Session = sessionmaker(connection)
     s = Session()
@@ -105,18 +116,20 @@ def search_account(id):
             return {
                 'detail': accounts,
                 'message': 'Data found'
-                }
+                },200
         else:
             return {
                 'detail': [],
-                'message': 'No data found for the given user ID or query'}
+                'message': 'No data found for the given user ID or query'},404
 
     except Exception as a:
         print(a)
-        return{'message': 'Fail to Search data'}
+        return{'message': 'Fail to Search data'},400
     finally:
         s.close()
 
+
+@swag_from(os.path.join(current_dir, '..', 'Api_Doc','account', 'update_account.yml'))
 def update_data(id):
     Session = sessionmaker(connection)
     s = Session()
@@ -150,10 +163,12 @@ def update_data(id):
 
     except Exception as c:
         print(c)
-        return{'message':'fail to update'},404
+        return{'message':'fail to update'},400
     finally:
         s.close()
-    
+
+
+@swag_from(os.path.join(current_dir, '..', 'Api_Doc','account', 'delete_account.yml'))    
 def delete_acount(id):
     Session=sessionmaker(connection)
     s= Session()
@@ -176,10 +191,10 @@ def delete_acount(id):
                 s.delete(user)
                 s.commit()
 
-        return{'message':'Success to delete'},201
+        return{'message':'Success to delete'},200
     except Exception as c:
         print(c)
         s.rollback()
-        return{'message':'fail to delete'},404
+        return{'message':'fail to delete'},400
     finally:
         s.close()

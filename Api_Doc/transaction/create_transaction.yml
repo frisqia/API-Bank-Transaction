@@ -1,0 +1,72 @@
+Create Transaction
+---
+tags:
+  - Transactions
+summary: Create a new transaction
+parameters:
+  - in: formData
+    name: from_account_id
+    type: integer
+    required: true
+    description: ID of the account from which the amount will be deducted
+  - in: formData
+    name: to_account_id
+    type: integer
+    required: true
+    description: ID of the account to which the amount will be added
+  - in: formData
+    name: amount
+    type: string
+    required: true
+    description: Amount to be transferred
+  - in: formData
+    name: type
+    type: string
+    required: true
+    description: Type of transaction
+  - in: formData
+    name: description
+    type: string
+    required: true
+    description: Description of the transaction
+responses:
+  201:
+    description: Transaction created successfully
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Transaction success"
+        transaction:
+          type: object
+          properties:
+            ID:
+              type: integer
+              example: 1
+            From Account ID:
+              type: integer
+              example: 123
+            To Account ID:
+              type: integer
+              example: 456
+            Amount:
+              type: string
+              example: "100.00"
+            Type:
+              type: string
+              example: "transfer"
+            Description:
+              type: string
+              example: "Payment for invoice #1234"
+            Time:
+              type: string
+              example: "2023-01-01T12:00:00"
+  400:
+    description: Failed to create transaction
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Failed to create transaction"

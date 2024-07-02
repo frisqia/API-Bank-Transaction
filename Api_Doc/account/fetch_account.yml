@@ -1,0 +1,42 @@
+List of account
+---
+tags:
+  - Accounts
+summary: Fetch all accounts
+responses:
+  200:
+    description: A list of all accounts
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "all data is"
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              ID:
+                type: integer
+                example: 1
+              User ID:
+                type: integer
+                example: 123
+              Type:
+                type: string
+                example: "savings"
+              Number:
+                type: string
+                example: "1234567890"
+              Balance:
+                type: string
+                example: "1000.00"
+              Register Time:
+                type: string
+                example: "2023-01-01T12:00:00"
+              Update register:
+                type: string
+                example: "2023-01-02T12:00:00"
+  400:
+    description: Failed to fetch accounts

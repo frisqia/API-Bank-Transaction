@@ -8,9 +8,6 @@ import os
 
 from flask_login import LoginManager
 
-
-from flask_jwt_extended import JWTManager
-
 from Models.users import User
 
 from sqlalchemy.orm import sessionmaker
@@ -34,7 +31,6 @@ app.register_blueprint(user_bp)
 app.register_blueprint(account_bp)
 app.register_blueprint(transaction_bp)
 
-jwt = JWTManager(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)

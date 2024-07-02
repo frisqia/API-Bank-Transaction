@@ -12,5 +12,5 @@ parameters:
 responses:
   200:
     description: Users found
-  500:
+  400:
     description: Fail to search users

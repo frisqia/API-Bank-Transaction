@@ -1,0 +1,64 @@
+Setting data
+---
+tags:
+  - Accounts
+summary: Update an account
+parameters:
+  - in: path
+    name: id
+    type: integer
+    required: true
+    description: ID of the account
+  - in: formData
+    name: Type
+    type: string
+    required: true
+    description: Type of the account
+  - in: formData
+    name: Number
+    type: string
+    required: true
+    description: Number of the account
+  - in: formData
+    name: Balance
+    type: string
+    required: true
+    description: Balance of the account
+responses:
+  201:
+    description: Account updated successfully
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Account updated successfully"
+        account:
+          type: object
+          properties:
+            ID:
+              type: integer
+              example: 1
+            Type:
+              type: string
+              example: "savings"
+            Number:
+              type: string
+              example: "1234567890"
+            Balance:
+              type: string
+              example: "1000.00"
+            Register Time:
+              type: string
+              example: "2023-01-01T12:00:00"
+            Update Time:
+              type: string
+              example: "2023-01-02T12:00:00"
+  400:
+    description: Failed to update account
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "fail to update"

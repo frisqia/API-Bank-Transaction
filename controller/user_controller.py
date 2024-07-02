@@ -5,6 +5,7 @@ from connectors.mysql_connector import (connection)
 from sqlalchemy.orm import sessionmaker
 
 
+
 from flask_login import login_user, logout_user
 
 from flasgger import swag_from
@@ -48,7 +49,7 @@ def register_user():
     except Exception as e:
         print(e)
         s.rollback()
-        return{'message': 'Fail to Register'}, 500
+        return{'message': 'Fail to Register'}, 403
     finally:
         s.close()
 
@@ -66,7 +67,7 @@ def user_login():
         user = s.query(User).filter((User.email == login) | (User.username == login)).first()
 
         if user is None:
-            return {"message": "User not found"}, 403
+            return {"message": "User not found"}, 404
 
         if not user.check_password(password):
             return {"message": "Invalid password"}, 403
@@ -93,7 +94,7 @@ def user_login():
     except Exception as e:
         print(e)
         s.rollback()
-        return {"message": "Fail to login"}, 500
+        return {"message": "Fail to login"}, 400
     finally:
         s.close()
 
@@ -119,11 +120,12 @@ def search_user():
             })
             print(f'ID: {row.id}, Name: {row.username}, Email: {row.email}, Register Time: {row.created_at}, Updated Time: {row.updated_at}')
         return{
-            'users':user
-        }
+            'users':user,
+            'message':'users Found'
+        }, 200
     except Exception as e:
         print(e)
-        return{'message': 'Fail to Register'}, 500
+        return{'message': 'Fail to Register'}, 400
     finally:
         s.close()
 
@@ -151,11 +153,11 @@ def Update_user(id):
         return{
             'message':'succes update data',
             'User' : New_data
-            },200
+            },201
     except Exception as c:
         print(c)
         s.rollback()
-        return{'message':'fail to update'},500
+        return{'message':'fail to update'},400
     finally:
         s.close()
 
@@ -163,4 +165,4 @@ def Update_user(id):
 @swag_from(os.path.join(current_dir, '..', 'Api_Doc','user', 'logout_user.yml'))   
 def user_logout():
     logout_user()
-    return { "message": "Success logout" }
+    return { "message": "Success logout" },200

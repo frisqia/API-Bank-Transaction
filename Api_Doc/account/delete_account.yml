@@ -1,0 +1,28 @@
+Delete data
+---
+tags:
+  - Accounts
+summary: Delete an account
+parameters:
+  - in: path
+    name: id
+    type: integer
+    required: true
+    description: ID of the account
+responses:
+  200:
+    description: Account deleted successfully
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Success to delete"
+  400:
+    description: Failed to delete account
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "fail to delete"

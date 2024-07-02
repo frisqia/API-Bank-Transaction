@@ -62,6 +62,13 @@ Additional Notes:
 - Remember to implement appropriate error handling and validation for each endpoint.
 - Consider using appropriate HTTP status codes to indicate success, failure, or specific error conditions.
 
+----------------------
+Relationships:
+- One user can have many accounts (One-to-Many).
+- One account belongs to one user (Many-to-One).
+- One account can have many transactions (One-to-Many).
+- One transaction belong to one account (Many-to-One)(optional for transfer)
+
     - ✅Build API using Flask
     - ✅Database Connection
     - ✅Flask Authentication

@@ -10,9 +10,17 @@ from sqlalchemy.orm import sessionmaker
 
 from decimal import Decimal
 
+from flasgger import swag_from
+import os
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+
+@swag_from(os.path.join(current_dir, '..', 'Api_Doc','transaction', 'test_transaction.yml'))
 def test_transaction():
     return 'transaction'
 
+
+@swag_from(os.path.join(current_dir, '..', 'Api_Doc','transaction', 'fetch_transaction.yml'))
 def fetch_transaction():
     list_transaction = select(Transaction)
     Session= sessionmaker(connection)
@@ -34,14 +42,15 @@ def fetch_transaction():
         return{
             'message': 'all data is',
             'data':transaction
-        },201
+        },200
     except Exception as t:
         print(t)
-        return {'message': 'fail to fetch Transaction'}, 500
+        return {'message': 'fail to fetch Transaction'}, 400
     finally:
         s.close()
 
 
+@swag_from(os.path.join(current_dir, '..', 'Api_Doc','transaction', 'create_transaction.yml'))
 def create_transaction():
     Session = sessionmaker(connection)
     s = Session()
@@ -101,6 +110,8 @@ def create_transaction():
     finally:
         s.close()
 
+
+@swag_from(os.path.join(current_dir, '..', 'Api_Doc','transaction', 'search_transaction.yml'))
 def search_transaction(id):
     Session = sessionmaker(connection)
     s = Session()
@@ -128,15 +139,15 @@ def search_transaction(id):
             return {
                 'detail': transaction_list,
                 'message': 'Data found'
-            }
+            },200
         else:
             return {
                 'detail': [],
                 'message': 'No data found'
-            }
+            },404
 
     except Exception as a:
         print(a)
-        return {'message': 'Fail to Search data'}
+        return {'message': 'Fail to Search data'},400
     finally:
         s.close()

@@ -1,0 +1,8 @@
+Testing
+---
+tags:
+  - Transactions
+summary: Test Transaction endpoint
+responses:
+  200:
+    description: Trabnsaction endpoint works

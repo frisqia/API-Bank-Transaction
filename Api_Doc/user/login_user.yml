@@ -19,5 +19,5 @@ responses:
     description: Login successful
   403:
     description: User not found or invalid password
-  500:
+  400:
     description: Fail to login

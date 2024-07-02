@@ -1,0 +1,70 @@
+Details transaction
+---
+tags:
+  - Transactions
+summary: Detail about transaction byID
+parameters:
+  - in: path
+    name: id
+    type: integer
+    required: true
+    description: ID of the transaction
+  - in: query
+    name: query
+    type: string
+    required: false
+    description: Search keyword for transaction type
+responses:
+  200:
+    description: Transaction details
+    schema:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            type: object
+            properties:
+              ID:
+                type: integer
+                example: 1
+              From Account ID:
+                type: integer
+                example: 123
+              To Account ID:
+                type: integer
+                example: 456
+              Amount:
+                type: string
+                example: "100.00"
+              Type:
+                type: string
+                example: "transfer"
+              Description:
+                type: string
+                example: "Payment for invoice #1234"
+              Time:
+                type: string
+                example: "2023-01-01T12:00:00"
+        message:
+          type: string
+          example: "Data found"
+  404:
+    description: No data found
+    schema:
+      type: object
+      properties:
+        detail:
+          type: array
+          example: []
+        message:
+          type: string
+          example: "No data found"
+  400:
+    description: Failed to search data
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Fail to Search data"

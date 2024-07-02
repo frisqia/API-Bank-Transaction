@@ -22,5 +22,5 @@ parameters:
 responses:
   201:
     description: User registered successfully
-  500:
+  403:
     description: Fail to register
