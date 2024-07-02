@@ -5,22 +5,54 @@ tags:
 summary: Register a new user
 parameters:
   - in: formData
-    name: email
-    type: string
-    required: true
-    description: User's email
-  - in: formData
     name: username
     type: string
     required: true
     description: User's username
   - in: formData
+    name: email
+    type: string
+    required: true
+    description: User's email
+  - in: formData
     name: password
     type: string
     required: true
     description: User's password
+    minLength: 6
+    maxLength: 6
 responses:
   201:
     description: User registered successfully
+    scema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Register Success
+        New User:
+          type: object
+          properties:
+            ID:
+              type: integer
+            Name:
+              type: string
+            Email:
+              type: string
+            Register Time:
+              type: string
+              format: date-time
+            Update Time:
+              type: string
+              format: date-time          
   403:
     description: Fail to register
+    schema:
+      type: object
+      properties:
+        error:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
