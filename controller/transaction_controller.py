@@ -10,6 +10,9 @@ from sqlalchemy.orm import sessionmaker
 
 from decimal import Decimal
 
+from cerberus import Validator
+from validations.transaction_insert import transaction_insert_schema
+
 from flasgger import swag_from
 import os
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -52,6 +55,19 @@ def fetch_transaction():
 
 @swag_from(os.path.join(current_dir, '..', 'Api_Doc','transaction', 'create_transaction.yml'))
 def create_transaction():
+
+    v = Validator(transaction_insert_schema)
+    request_body = {
+        'from_account_id': int(request.form['from_account_id']),
+        'to_account_id' : int(request.form['to_account_id']),
+        'amount' : request.form['amount'],
+        'type' : request.form['type'],
+        'description':request.form['description']
+     }
+    
+    if not v.validate(request_body):
+        return{'error': v.errors}, 489     
+       
     Session = sessionmaker(connection)
     s = Session()
     s.begin()

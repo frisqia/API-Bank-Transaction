@@ -4,7 +4,8 @@ from Models.users import User
 from connectors.mysql_connector import (connection)
 from sqlalchemy.orm import sessionmaker
 
-
+from cerberus import Validator
+from validations.user_insert import user_insert_schema
 
 from flask_login import login_user, logout_user
 
@@ -19,6 +20,18 @@ def test_user():
 
 @swag_from(os.path.join(current_dir, '..', 'Api_Doc','user', 'register_user.yml'))
 def register_user():
+
+
+    v = Validator(user_insert_schema)
+    request_body = {
+        'username': request.form['username'],
+        'email' : request.form['email'],
+        'password_hash' : request.form['password']
+     }
+    
+    if not v.validate(request_body):
+        return{'error': v.errors}, 489
+
     Session = sessionmaker(connection)
     s = Session()
     s.begin()                                                                                

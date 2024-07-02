@@ -1,6 +1,12 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/hMIDAFdr)
 
 
+# Table
+
+- select* from users;
+- select* from accounts;
+- select* from transactions;
+
 - users
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -24,6 +30,14 @@ CREATE TABLE accounts (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+#### note: 
+ - form account_type: 
+    - Checking 
+    - Savings
+    - CDs
+    - Money Market
+    - Foreign Currency
+
 -----------------------------------------
 - transactions
 CREATE TABLE transactions (
@@ -38,9 +52,18 @@ CREATE TABLE transactions (
     FOREIGN KEY (to_account_id) REFERENCES accounts(id) ON DELETE CASCADE
 );
 
-- select* from users;
-- select* from accounts;
-- select* from transactions;
+
+
+#### note
+- from type :
+    - Deposits
+    - Withdrawals
+    - Transfers
+    - Loans and Credits
+    - Bill Payments
+    - Foreign Exchange Transactions
+    - Fees and Service Charges
+    - Interest Payments
 
 
 # FLASK API FOR A BANKING APPLICATION

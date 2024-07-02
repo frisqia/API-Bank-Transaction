@@ -7,6 +7,10 @@ from connectors.mysql_connector import connection
 from sqlalchemy import select
 from sqlalchemy.orm import sessionmaker
 
+
+from cerberus import Validator
+from validations.account_insert import account_insert_schema
+
 from flasgger import swag_from
 import os
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -49,6 +53,18 @@ def fetch_account():
 
 @swag_from(os.path.join(current_dir, '..', 'Api_Doc','account', 'insert_account.yml'))
 def insert_account():
+
+    v = Validator(account_insert_schema)
+    request_body = {
+        'user_id': int(request.form['user_id']),
+        'account_type' : request.form['account_type'],
+        'account_number' : request.form['account_number'],
+        'balance' : request.form['balance']
+     }
+    
+    if not v.validate(request_body):
+        return{'error': v.errors}, 489
+
     Session = sessionmaker(connection)
     s = Session()
     s.begin()
