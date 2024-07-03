@@ -119,8 +119,10 @@ def search_user():
     try:
         profile = select(User)
         keyword = request.args.get('query')
+
         if keyword !=None:
             profile = profile.where(User.username.like(f'%{keyword}%'))
+            
         user_result = s.execute(profile)
         user=[]
         for row in user_result.scalars():

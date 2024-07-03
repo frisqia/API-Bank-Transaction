@@ -1,5 +1,5 @@
 from flask import Blueprint
-from controller.account_controller import test_account, fetch_account, insert_account, search_account, update_data, delete_acount
+from controller.account_controller import test_account, fetch_account, insert_account, search_accountByID, update_data, delete_acount
 
 
 
@@ -22,7 +22,7 @@ account_bp = login_required_blueprint(account_bp)
 account_bp.route('/account', methods=['GET'])(test_account)
 account_bp.route('/accounts', methods=['GET'])((fetch_account))
 account_bp.route('/accounts', methods=['POST'])(insert_account)
-account_bp.route('/accounts/<id>', methods=['GET'])((search_account))
+account_bp.route('/accounts/<id>', methods=['GET'])((search_accountByID))
 account_bp.route('/accounts/<id>', methods=['PUT'])(update_data)
 account_bp.route('/accounts/<id>', methods=['DELETE'])(delete_acount)
 

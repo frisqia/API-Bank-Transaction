@@ -108,37 +108,32 @@ def insert_account():
 
 
 @swag_from(os.path.join(current_dir, '..', 'Api_Doc','account', 'search_account.yml'))
-def search_account(id):
+def search_accountByID(id):
     Session = sessionmaker(connection)
     s = Session()
     try:
-        details = select(Account).where(Account.id == id)
-        keyword = request.args.get('query')
-        if keyword != None:
-            details= details.where(Account.account_type.like(f'%{keyword}%'))
-        account = s.execute(details)
-        accounts=[]
-        for row in account.scalars():
-            accounts.append({
-                'ID':row.id,
-                'User ID': row.user_id,
-                'Type': row.account_type,
-                'Number':row.account_number,
-                'balance':row.balance,
-                'Register Time':row.created_at,
-                'Update Time':row.updated_at
-            })
-            print(f'ID: {row.user_id} Type: {row.account_type} Number: {row.account_number} Balance: {row.balance} Register Time: {row.created_at} Updated Time: {row.updated_at}')
-        
-        if accounts:
+        details = select(Account).where(Account.user_id == id)
+        account = s.execute(details).scalar_one_or_none()
+
+        if account:
+            account_detail = {
+                'ID': account.id,
+                'User ID': account.user_id,
+                'Type': account.account_type,
+                'Number': account.account_number,
+                'Balance': account.balance,
+                'Register Time': account.created_at,
+                'Update Time': account.updated_at
+            }
+            print(f'ID: {account.id} User ID: {account.user_id} Type: {account.account_type} Number: {account.account_number} Balance: {account.balance} Register Time: {account.created_at} Updated Time: {account.updated_at}')
             return {
-                'detail': accounts,
+                'detail': account_detail,
                 'message': 'Data found'
-                },200
+            }, 200
         else:
             return {
-                'detail': [],
-                'message': 'No data found for the given user ID or query'},404
+                'detail': None,
+                'message': 'No data found for the given user ID '},404
 
     except Exception as a:
         print(a)
