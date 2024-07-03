@@ -1,5 +1,5 @@
 from flask import Flask
-from connectors.mysql_connector import connection
+from Connectors.mysql_connector import connection
 
 from blueprint.user_route import user_bp
 from blueprint.account_route import account_bp

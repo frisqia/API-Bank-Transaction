@@ -3,7 +3,7 @@ from flask import request
 from Models.accounts import Account
 from Models.users import User
 
-from connectors.mysql_connector import connection
+from Connectors.mysql_connector import connection
 from sqlalchemy import select
 from sqlalchemy.orm import sessionmaker
 
