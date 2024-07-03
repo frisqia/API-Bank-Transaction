@@ -8,8 +8,8 @@ user_bp = Blueprint('user', __name__)
 user_bp.route('/user', methods=['GET'])(test_user)
 user_bp.route('/users', methods=['POST'])(register_user)
 user_bp.route('/users/login', methods=['POST'])(user_login)
-user_bp.route('/users', methods=['GET'])(search_user)
-user_bp.route('/users/<id>', methods=['PUT'])(Update_user)
+user_bp.route('/users', methods=['GET'])(login_required(search_user))
+user_bp.route('/users/<id>', methods=['PUT'])(login_required(Update_user))
 user_bp.route('/users/logout', methods=['GET'])(login_required(user_logout))
 
 # POST /users: Create a new user account

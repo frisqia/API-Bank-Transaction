@@ -19,7 +19,7 @@ class User(Base,UserMixin):
     updated_at = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
 
-    # accounts = relationship('Account', back_populates='user')
+    accounts = relationship('Account', back_populates='user')
     
     # password yang sudah di encript
     def set_password(self, password):

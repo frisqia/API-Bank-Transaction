@@ -1,5 +1,5 @@
 from flask import Flask
-from connectors.mysql_connector import connection
+from Connectors.mysql_connector import connection
 
 from blueprint.user_route import user_bp
 from blueprint.account_route import account_bp
@@ -40,7 +40,10 @@ login_manager.login_view = "login"
 def load_user(users_id):
      Session = sessionmaker(connection)
      s = Session()
-     return s.query(User).get(int(users_id))
+     try:
+          return s.query(User).get(int(users_id))
+     finally:
+          s.close()
 
 
 

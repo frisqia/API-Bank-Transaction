@@ -3,13 +3,14 @@ from flask import request
 from Models.accounts import Account
 from Models.users import User
 
-from connectors.mysql_connector import connection
+from Connectors.mysql_connector import connection
 from sqlalchemy import select
 from sqlalchemy.orm import sessionmaker
 
 
 from cerberus import Validator
 from validations.account_insert import account_insert_schema
+from flask_login import current_user
 
 from flasgger import swag_from
 import os
@@ -58,7 +59,6 @@ def insert_account():
 
     v = Validator(account_insert_schema)
     request_body = {
-        'user_id': int(request.form['user_id']),
         'account_type' : request.form['account_type'],
         'account_number' : request.form['account_number'],
         'balance' : request.form['balance']
@@ -71,7 +71,7 @@ def insert_account():
     s = Session()
     s.begin()
     try:
-        user_id = request.form['user_id']
+        user_id = current_user.id
         user = s.query(User).filter(User.id == user_id).first()
 
         if not user:

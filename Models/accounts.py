@@ -15,7 +15,7 @@ class Account(Base):
     # updated_at=mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at=mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
-    # user = relationship('User', back_populates='accounts')
+    user = relationship('User', back_populates='accounts')
     transactions_from = relationship('Transaction', foreign_keys='Transaction.from_account_id', back_populates='from_account', cascade='all, delete-orphan')
     transactions_to = relationship('Transaction', foreign_keys='Transaction.to_account_id', back_populates='to_account',cascade='all, delete-orphan')
 

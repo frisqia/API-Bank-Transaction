@@ -1,7 +1,7 @@
 from flask import request
 from sqlalchemy import select
 from Models.users import User
-from connectors.mysql_connector import (connection)
+from Connectors.mysql_connector import (connection)
 from sqlalchemy.orm import sessionmaker
 
 from cerberus import Validator
@@ -74,7 +74,7 @@ def user_login():
     s.begin()
 
     try:
-        login = request.form['login']
+        login = request.form['email']
         password = request.form['password']
 
         user = s.query(User).filter((User.email == login) | (User.username == login)).first()
