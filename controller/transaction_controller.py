@@ -4,7 +4,7 @@ from flask import request
 from Models.transactions import Transaction
 from Models.accounts import Account
 
-from Connectors.mysql_connector import connection
+from connectors.mysql_connector import connection
 from sqlalchemy import select
 from sqlalchemy.orm import sessionmaker
 

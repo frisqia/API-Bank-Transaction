@@ -1,7 +1,7 @@
 from flask import request
 from sqlalchemy import select
 from Models.users import User
-from Connectors.mysql_connector import (connection)
+from connectors.mysql_connector import (connection)
 from sqlalchemy.orm import sessionmaker
 
 from cerberus import Validator
