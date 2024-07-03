@@ -7,7 +7,7 @@ from sqlalchemy.orm import sessionmaker
 from cerberus import Validator
 from validations.user_insert import user_insert_schema
 
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user,current_user
 
 from flasgger import swag_from
 import os
@@ -140,35 +140,44 @@ def search_user():
         }, 200
     except Exception as e:
         print(e)
-        return{'message': 'Fail to Register'}, 400
+        return{'message': 'Fail to search'}, 400
     finally:
         s.close()
 
 
 @swag_from(os.path.join(current_dir, '..', 'Api_Doc','user', 'update_user.yml'))   
-def Update_user(id):
+def Update_user():
     session= sessionmaker(connection)
     s = session()
     s.begin()
     try:
-        update_data = s.query(User).filter(User.id == id).first()
+        update_data = s.query(User).filter(User.id == current_user.id).first()
+        
+        if update_data is None:
+            return {'message': 'User not found'}, 404
+        if 'username' in request.form:
+            update_data.username = request.form['username']
 
-        update_data.username = request.form['username']
-        update_data.email = request.form['email']
-        update_data.set_password(request.form['password'])
+        if 'email' in request.form:
+            update_data.email = request.form['email']
+
+        if 'password' in request.form:
+            update_data.set_password(request.form['password'])
+
         s.commit()
-
-        New_data = {
+        
+        updated_user = {
             'ID': update_data.id,
-            'Username': update_data.username,
+            'Name': update_data.username,
             'Email': update_data.email,
             'Register Time': update_data.created_at,
             'Update Time': update_data.updated_at
         }
-        return{
-            'message':'succes update data',
-            'User' : New_data
-            },201
+
+        return {
+            'message': 'Update successful',
+            'Updated User': [updated_user]
+        }, 200
     except Exception as c:
         print(c)
         s.rollback()
