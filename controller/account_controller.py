@@ -13,6 +13,7 @@ from validations.account_insert import account_insert_schema
 from flask_login import current_user
 
 from flasgger import swag_from
+
 import os
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -59,9 +60,9 @@ def insert_account():
 
     v = Validator(account_insert_schema)
     request_body = {
-        'account_type' : request.form['account_type'],
-        'account_number' : request.form['account_number'],
-        'balance' : request.form['balance']
+        'account_type' : request.form['Type'],
+        'account_number' : request.form['Number'],
+        'balance' : request.form['Balance']
      }
     
     if not v.validate(request_body):
@@ -79,9 +80,9 @@ def insert_account():
         
         NewAccount = Account(
             user_id=user_id,
-            account_type=request.form['account_type'],
-            account_number=request.form['account_number'],
-            balance=request.form['balance']
+            account_type=request.form['Type'],
+            account_number=request.form['Number'],
+            balance=request.form['Balance']
         )
         s.add(NewAccount)
         s.commit()

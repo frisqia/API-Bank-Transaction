@@ -113,7 +113,7 @@ def user_login():
 
 
 @swag_from(os.path.join(current_dir, '..', 'Api_Doc','user', 'search_user.yml'))
-def search_user():
+def profile_user():
     Session = sessionmaker(connection)
     s = Session()                                                                              
     try:

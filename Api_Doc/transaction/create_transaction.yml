@@ -55,7 +55,7 @@ responses:
               example: "100.00"
             Type:
               type: string
-              example: "transfer"
+              example: "Deposits, Withdrawals, Transfers, Loans and Credits, Bill Payments ,Foreign Exchange Transactions, Fees and Service Charges, Interest Payments"
             Description:
               type: string
               example: "Payment for invoice #1234"

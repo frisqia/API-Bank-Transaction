@@ -5,12 +5,30 @@ tags:
 summary: Profile User
 parameters:
   - in: query
-    name: query
+    name: me
     type: string
     required: false
-    description: Search keyword for username
+    description: input your uresname
 responses:
   200:
     description: Users found
+    schema:
+      type: object
+      properties:
+       users:
+        type: array
+        items:
+          type: object
+          properties:
+            ID:
+              type: integer
+            Name:
+              type:
+            Email:
+              type: string
+            Register Time:
+              type: string
+            Update Time:
+              type: String
   400:
     description: Fail to search users

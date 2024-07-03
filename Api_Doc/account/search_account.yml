@@ -9,11 +9,6 @@ parameters:
     type: integer
     required: true
     description: ID of the account
-  - in: query
-    name: query
-    type: string
-    required: false
-    description: Search keyword for account type
 responses:
   200:
     description: Account details
@@ -33,12 +28,12 @@ responses:
                 example: 123
               Type:
                 type: string
-                example: "savings"
+                example: "savings, Checking, CDs, Money Market. Foreign Currency"
               Number:
                 type: string
                 example: "1234567890"
               Balance:
-                type: string
+                type: number
                 example: "1000.00"
               Register Time:
                 type: string
@@ -59,7 +54,7 @@ responses:
           example: []
         message:
           type: string
-          example: "No data found for the given user ID or query"
+          example: "No data found for the given user ID"
   400:
     description: Failed to search data
     schema:

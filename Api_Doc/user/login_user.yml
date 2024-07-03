@@ -5,7 +5,7 @@ tags:
 summary: User login
 parameters:
   - in: formData
-    name: login
+    name: email
     type: string
     required: true
     description: User's email or username
@@ -17,6 +17,26 @@ parameters:
 responses:
   200:
     description: Login successful
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+        session_id:
+          type: string
+        user:
+          type: object
+          properties:
+            ID:
+             type: integer
+            Name:
+             type: string
+            Email:
+             type: string
+            Register Time:
+             type: string
+            Update Time:
+             type: string
   403:
     description: User not found or invalid password
   400:

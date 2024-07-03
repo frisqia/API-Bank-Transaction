@@ -5,23 +5,18 @@ tags:
 summary: Insert a new account
 parameters:
   - in: formData
-    name: user_id
-    type: integer
-    required: true
-    description: ID of the user who owns the account
-  - in: formData
-    name: account_type
+    name: Type
     type: string
     required: true
     description: Type of the account
   - in: formData
-    name: account_number
+    name: Number
     type: string
     required: true
-    description: Number of the account
+    description: Rekening Number
   - in: formData
-    name: balance
-    type: string
+    name: Balance
+    type: number
     required: true
     description: Balance of the account
 responses:
@@ -41,12 +36,12 @@ responses:
               example: 1
             Type:
               type: string
-              example: "savings"
+              example: "Savings, Checking, CDs, Money Market. Foreign Currency"
             Number:
               type: string
               example: "1234567890"
             Balance:
-              type: string
+              type: number
               example: "1000.00"
             Register Time:
               type: string

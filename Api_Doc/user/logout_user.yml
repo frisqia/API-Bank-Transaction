@@ -6,3 +6,8 @@ summary: Logout user
 responses:
   200:
     description: Logout successful
+    schema:
+      type: object
+      properties:
+        message:
+          type: string

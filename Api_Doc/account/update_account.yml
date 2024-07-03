@@ -21,7 +21,7 @@ parameters:
     description: Number of the account
   - in: formData
     name: Balance
-    type: string
+    type: number
     required: true
     description: Balance of the account
 responses:
@@ -41,12 +41,12 @@ responses:
               example: 1
             Type:
               type: string
-              example: "savings"
+              example: "savingssavings, Checking, CDs, Money Market. Foreign Currency"
             Number:
               type: string
               example: "1234567890"
             Balance:
-              type: string
+              type: number
               example: "1000.00"
             Register Time:
               type: string

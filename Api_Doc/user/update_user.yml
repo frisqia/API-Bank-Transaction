@@ -4,28 +4,43 @@ tags:
   - Users
 summary: Update user data
 parameters:
-  - in: path
-    name: id
-    type: integer
-    required: true
-    description: User ID
-  - in: formData
+  - in: fromData
     name: username
     type: string
-    required: true
+    required: false
     description: New username
   - in: formData
     name: email
     type: string
-    required: true
+    required: false
     description: New email
   - in: formData
     name: password
     type: string
-    required: true
+    required: false
     description: New password
 responses:
   201:
     description: User data updated successfully
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+        Updated User:
+          type: array
+          items:
+            type: object
+            properties:
+              ID:
+                type: integer
+              Name:
+                type: string
+              Email:
+                type: string
+              Register Time:
+                type: string
+              Update Time:
+                type: string
   400:
     description: Fail to update user data
