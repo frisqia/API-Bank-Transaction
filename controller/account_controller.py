@@ -116,6 +116,9 @@ def search_accountByID(id):
         account = s.execute(details).scalar_one_or_none()
 
         if account:
+            if account.user_id != current_user.id:
+                return {'message': 'Unauthorized access'}, 403  
+                      
             account_detail = {
                 'ID': account.id,
                 'User ID': account.user_id,
