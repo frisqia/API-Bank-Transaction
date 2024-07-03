@@ -166,4 +166,4 @@ def search_transaction(id):
         print(a)
         return {'message': 'Fail to Search data'},400
     finally:
-        s.close()
+        s.close() 

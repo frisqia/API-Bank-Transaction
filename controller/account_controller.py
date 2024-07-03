@@ -23,12 +23,14 @@ def test_account():
 
 @swag_from(os.path.join(current_dir, '..', 'Api_Doc','account', 'fetch_account.yml'))
 def fetch_account():
-    account_fetch = select(Account)
     Session = sessionmaker(connection)
     s = Session()
     try:
+        account_fetch = select(Account)
         result = s.execute(account_fetch)
+        print(result)
         accounts=[]
+
         for row in result.scalars():
             accounts.append({
                 'ID': row.id,
@@ -94,7 +96,7 @@ def insert_account():
         }
         print(f'ID: {NewAccount["ID"]} Type: {NewAccount["Type"]} Number: {NewAccount["Number"]} Balance: {NewAccount["Balance"]} Register Time: {NewAccount["Register Time"]} Update Time: {NewAccount["Update Time"]}')
         return {
-            'message':'succes cresate account',
+            'message':'succes create account',
             'created':NewAccount
             },201
     except Exception as c:
@@ -191,22 +193,8 @@ def delete_acount(id):
     s.begin()
     try:
         Data= s.query(Account).filter(Account.id == id).first()
-
-        if not Data:
-            return {'message': 'Account not found'}, 404
-
-        user_id = Data.user_id        
         s.delete(Data)
         s.commit()
-
-        remaining_accounts = s.query(Account).filter(Account.user_id == user_id).all()
-
-        if not remaining_accounts:
-            user = s.query(User).filter(User.id == user_id).first()
-            if user:
-                s.delete(user)
-                s.commit()
-
         return{'message':'Success to delete'},200
     except Exception as c:
         print(c)

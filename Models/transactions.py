@@ -15,7 +15,9 @@ class Transaction(Base):
     description=mapped_column(String(255))
     created_at=mapped_column(DateTime(timezone=True), server_default=func.now())
 
-account = relationship('Account', back_populates='transactions')
+    from_account = relationship('Account', foreign_keys=[from_account_id], back_populates='transactions_from')
+    to_account = relationship('Account', foreign_keys=[to_account_id], back_populates='transactions_to')
+
 
 # id:(INT,Primary Key)Unique identifier for the account.
 # from_account_id:(INT, ForeignKey references Account.id) Account initiating the transaction(optional fro transfers)

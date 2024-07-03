@@ -48,9 +48,10 @@ CREATE TABLE transactions (
     type VARCHAR(255) NOT NULL,
     description VARCHAR(255),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (from_account_id) REFERENCES accounts(id) ON DELETE CASCADE,
     FOREIGN KEY (to_account_id) REFERENCES accounts(id) ON DELETE CASCADE
-);
+); 
 
 
 

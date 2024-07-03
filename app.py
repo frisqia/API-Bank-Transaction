@@ -11,7 +11,7 @@ from flask_login import LoginManager
 from Models.users import User
 
 from sqlalchemy.orm import sessionmaker
-from datetime import timedelta
+# from datetime import timedelta
 
 from dotenv import load_dotenv
 
@@ -22,7 +22,7 @@ load_dotenv()
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)
+# app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)
 
 
 swagger = Swagger(app)

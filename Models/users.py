@@ -18,8 +18,9 @@ class User(Base,UserMixin):
     created_at = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
-    accounts = relationship('Account', cascade='all, delete-orphan')
 
+    # accounts = relationship('Account', back_populates='user')
+    
     # password yang sudah di encript
     def set_password(self, password):
         self.password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
