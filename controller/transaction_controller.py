@@ -3,6 +3,7 @@ from flask import request
 
 from Models.transactions import Transaction
 from Models.accounts import Account
+from Models.users import User
 
 from Connectors.mysql_connector import connection
 from sqlalchemy import select
@@ -12,6 +13,8 @@ from decimal import Decimal
 
 from cerberus import Validator
 from validations.transaction_insert import transaction_insert_schema
+
+from flask_login import current_user
 
 from flasgger import swag_from
 import os
@@ -54,6 +57,7 @@ def fetch_transaction():
 
 
 @swag_from(os.path.join(current_dir, '..', 'Api_Doc','transaction', 'create_transaction.yml'))
+
 def create_transaction():
 
     v = Validator(transaction_insert_schema)
@@ -82,12 +86,27 @@ def create_transaction():
         from_account = s.query(Account).filter(Account.id == from_account_id).first()
         to_account = s.query(Account).filter(Account.id == to_account_id).first()
 
-        if not from_account or not to_account:
-            return {'message': 'From or To account does not exist'}, 400
+        if not from_account:
+            return {'message': f'From account with ID {from_account_id} does not exist'}, 400            
 
+        if not to_account:
+            return {'message': f'To account with ID {to_account_id} does not exist'}, 400
+        
+        from_user = s.query(User).join(Account).filter(Account.id == from_account_id).first()
+        to_user = s.query(User).join(Account).filter(Account.id == to_account_id).first()
+        
+        if not from_user:
+            return {'message': f'User associated with From account ID {from_account_id} does not exist'}, 400
+       
+        if not to_user:
+            return {'message': f'User associated with To account ID {to_account_id} does not exist'}, 400       
+        
         if from_account.balance < amount:
             return {'message': 'Insufficient funds in From account'}, 400
 
+        if current_user.id != from_user.id and current_user.id != to_user.id:
+            return {'message': 'Unauthorized transaction'}, 403
+        
         from_account.balance -= amount
         to_account.balance += amount
 
