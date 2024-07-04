@@ -3,15 +3,9 @@ Profile
 tags:
   - Users
 summary: Profile User
-parameters:
-  - in: query
-    name: me
-    type: string
-    required: false
-    description: input your uresname
 responses:
   200:
-    description: Users found
+    description: Your Profile
     schema:
       type: object
       properties:
@@ -31,4 +25,4 @@ responses:
             Update Time:
               type: String
   400:
-    description: Fail to search users
+    description: Fail to retrieve profile

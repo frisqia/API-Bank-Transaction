@@ -28,25 +28,29 @@ def fetch_account():
     Session = sessionmaker(connection)
     s = Session()
     try:
-        account_fetch = select(Account)
-        result = s.execute(account_fetch)
-        print(result)
-        accounts=[]
+        user_id = current_user.id
+        accounts = s.query(Account).filter_by(user_id=user_id).all()
 
-        for row in result.scalars():
-            accounts.append({
-                'ID': row.id,
-                'User ID':row.user_id,
-                'Type': row.account_type,
-                'Number': row.account_number,
-                'Balance': row.balance,
-                'Register Time': row.created_at,
-                'Update register': row.updated_at
+        if not accounts:
+            return {"message": "No accounts found"}, 404
+
+        user_account=[]
+
+        for account in accounts:
+            user_account.append({
+                'ID': account.id,
+                'User ID':account.user_id,
+                'Type': account.account_type,
+                'Number': account.account_number,
+                'Balance': account.balance,
+                'Register Time': account.created_at,
+                'Update register': account.updated_at
             })
-            print(f'ID: {row.id} User: {row.user_id} Type: {row.account_type} Number: {row.account_number} Balance: {row.balance} Register Time {row.created_at} Updated Time {row.updated_at}')
+            print(f'ID: {account.id} User: {account.user_id} Type: {account.account_type} Number: {account.account_number} Balance: {account.balance} Register Time {account.created_at} Updated Time {account.updated_at}')
+        
         return{
             'message': 'all data is',
-            'data':accounts
+            'data':user_account
         },200
     except Exception as e:
         print(e)
@@ -113,7 +117,7 @@ def search_accountByID(id):
     Session = sessionmaker(connection)
     s = Session()
     try:
-        details = select(Account).where(Account.user_id == id)
+        details = select(Account).where(Account.id== id)
         account = s.execute(details).scalar_one_or_none()
 
         if account:

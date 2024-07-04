@@ -112,35 +112,28 @@ def user_login():
         s.close()
 
 
-@swag_from(os.path.join(current_dir, '..', 'Api_Doc','user', 'search_user.yml'))
+@swag_from(os.path.join(current_dir, '..', 'Api_Doc','user', 'profile_user.yml'))
 def profile_user():
     Session = sessionmaker(connection)
     s = Session()                                                                              
     try:
-        profile = select(User)
-        keyword = request.args.get('query')
+        user = current_user
 
-        if keyword !=None:
-            profile = profile.where(User.username.like(f'%{keyword}%'))
-            
-        user_result = s.execute(profile)
-        user=[]
-        for row in user_result.scalars():
-            user.append({
-                'ID' : row.id,
-                'Name' : row.username,
-                'Email' : row.email,
-                'Register Time' : row.created_at,
-                'Update Time' : row.updated_at
-            })
-            print(f'ID: {row.id}, Name: {row.username}, Email: {row.email}, Register Time: {row.created_at}, Updated Time: {row.updated_at}')
+        user_profile = {
+            'ID': user.id,
+            'Name': user.username,
+            'Email': user.email,
+            'Register Time': user.created_at,
+            'Update Time': user.updated_at
+        }
+        print(f'ID: {user.id}, Name: {user.username}, Email: {user.email}, Register Time: {user.created_at}, Updated Time: {user.updated_at}')
         return{
-            'users':user,
-            'message':'users Found'
+            'users':user_profile,
+            'message':'Your Profile'
         }, 200
     except Exception as e:
         print(e)
-        return{'message': 'Fail to search'}, 400
+        return{'message': 'Fail to retrieve profile'}, 400
     finally:
         s.close()
 
