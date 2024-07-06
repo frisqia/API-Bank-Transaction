@@ -5,7 +5,7 @@ from Models.transactions import Transaction
 from Models.accounts import Account
 from Models.users import User
 
-from Connectors.mysql_connector import connection
+from connectors.mysql_connector import connection
 from sqlalchemy import select
 from sqlalchemy.orm import sessionmaker
 
@@ -19,11 +19,6 @@ from flask_login import current_user
 from flasgger import swag_from
 import os
 current_dir = os.path.dirname(os.path.abspath(__file__))
-
-
-@swag_from(os.path.join(current_dir, '..', 'Api_Doc','transaction', 'test_transaction.yml'))
-def test_transaction():
-    return 'transaction'
 
 
 @swag_from(os.path.join(current_dir, '..', 'Api_Doc','transaction', 'fetch_transaction.yml'))

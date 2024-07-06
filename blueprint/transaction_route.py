@@ -1,5 +1,5 @@
 from flask import Blueprint
-from controller.transaction_controller import test_transaction, fetch_transaction, create_transaction, search_transaction
+from controller.transaction_controller import fetch_transaction, create_transaction, search_transaction
 
 from flask_login import login_required
 
@@ -15,11 +15,10 @@ def login_required_blueprint(bp):
 
 transaction_bp = Blueprint('transactions', __name__)
 transaction_bp = login_required_blueprint(transaction_bp)
-
-transaction_bp.route('/transaction', methods=['GET'])(test_transaction)
+ 
 transaction_bp.route('/transactions', methods=['GET'])(login_required(fetch_transaction))
 transaction_bp.route('/transactions', methods=['POST'])((create_transaction))
-transaction_bp.route('/transactions/<id>', methods=['GET'])(login_required(search_transaction))
+transaction_bp.route('/transactions/<id>', methods=['GET'])((search_transaction))
 
 
 

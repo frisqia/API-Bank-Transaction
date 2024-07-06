@@ -1,8 +1,0 @@
-Testing
----
-tags:
-  - Users
-summary: Test user endpoint
-responses:
-  200:
-    description: User endpoint works

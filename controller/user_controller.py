@@ -1,7 +1,7 @@
 from flask import request
 from sqlalchemy import select
 from Models.users import User
-from Connectors.mysql_connector import (connection)
+from connectors.mysql_connector import (connection)
 from sqlalchemy.orm import sessionmaker
 
 from cerberus import Validator
@@ -13,9 +13,6 @@ from flasgger import swag_from
 import os
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
-@swag_from(os.path.join(current_dir, '..', 'Api_Doc','user', 'test_user.yml'))
-def test_user():
-    return 'user'
 
 
 @swag_from(os.path.join(current_dir, '..', 'Api_Doc','user', 'register_user.yml'))

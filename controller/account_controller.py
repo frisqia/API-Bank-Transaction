@@ -3,7 +3,7 @@ from flask import request
 from Models.accounts import Account
 from Models.users import User
 
-from Connectors.mysql_connector import connection
+from connectors.mysql_connector import connection
 from sqlalchemy import select
 from sqlalchemy.orm import sessionmaker
 
@@ -16,11 +16,6 @@ from flasgger import swag_from
 
 import os
 current_dir = os.path.dirname(os.path.abspath(__file__))
-
-
-@swag_from(os.path.join(current_dir, '..', 'Api_Doc','account', 'test_account.yml'))
-def test_account():
-    return 'account'
 
 
 @swag_from(os.path.join(current_dir, '..', 'Api_Doc','account', 'fetch_account.yml'))
@@ -82,27 +77,27 @@ def insert_account():
         if not user:
             raise ValueError("User ID does not exist")
         
-        NewAccount = Account(
+        New_Account = Account(
             user_id=user_id,
             account_type=request.form['Type'],
             account_number=request.form['Number'],
             balance=request.form['Balance']
         )
-        s.add(NewAccount)
+        s.add(New_Account)
         s.commit()
 
-        NewAccount = {
-            'ID': NewAccount.user_id,
-            'Type': NewAccount.account_type,
-            'Number': NewAccount.account_number,
-            'Balance': NewAccount.balance,
-            'Register Time': NewAccount.created_at,
-            'Update Time': NewAccount.updated_at
+        New_Account = {
+            'ID': New_Account.user_id,
+            'Type': New_Account.account_type,
+            'Number': New_Account.account_number,
+            'Balance': New_Account.balance,
+            'Register Time': New_Account.created_at,
+            'Update Time': New_Account.updated_at
         }
-        print(f'ID: {NewAccount["ID"]} Type: {NewAccount["Type"]} Number: {NewAccount["Number"]} Balance: {NewAccount["Balance"]} Register Time: {NewAccount["Register Time"]} Update Time: {NewAccount["Update Time"]}')
+        print(f'ID: {New_Account["ID"]} Type: {New_Account["Type"]} Number: {New_Account["Number"]} Balance: {New_Account["Balance"]} Register Time: {New_Account["Register Time"]} Update Time: {New_Account["Update Time"]}')
         return {
             'message':'succes create account',
-            'created':NewAccount
+            'created':New_Account
             },201
     except Exception as c:
         print(c)
@@ -113,7 +108,7 @@ def insert_account():
 
 
 @swag_from(os.path.join(current_dir, '..', 'Api_Doc','account', 'search_account.yml'))
-def search_accountByID(id):
+def search_account_by_id(id):
     Session = sessionmaker(connection)
     s = Session()
     try:

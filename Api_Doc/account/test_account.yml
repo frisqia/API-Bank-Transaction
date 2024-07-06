@@ -1,8 +1,0 @@
-Testing
----
-tags:
-  - Accounts
-summary: Test account endpoint
-responses:
-  200:
-    description: Account endpoint works

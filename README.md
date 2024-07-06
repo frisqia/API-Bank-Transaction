@@ -56,7 +56,7 @@ CREATE TABLE transactions (
 
 
 #### note
-- from type :
+- form type :
     - Deposits
     - Withdrawals
     - Transfers
