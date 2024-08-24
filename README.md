@@ -1,4 +1,4 @@
-<!-- 
+
 
 # Table
 
@@ -95,4 +95,4 @@ Relationships:
     - ✅Build API using Flask
     - ✅Database Connection
     - ✅Flask Authentication
-    - ✅API Documentation -->
+    - ✅API Documentation
