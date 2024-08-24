@@ -96,8 +96,3 @@ Relationships:
     - ✅Database Connection
     - ✅Flask Authentication
     - ✅API Documentation
-
-------------------------
-
-
-   
