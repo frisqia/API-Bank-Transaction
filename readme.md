@@ -2,11 +2,13 @@
 
 cara menjalankannya :
 
-1. pipenv install
-2. pipenv shell
-3. python app.py
-4. buka apidocs
-
+1. buat database di Mysql
+2. buka file.txt untuk membuat databasenya
+3. koneksikan dengan database dengan mengatur datanya di file .env
+4. buka terminal kemudian ketik pipenv install
+5. pipenv shell
+6. python app.py
+7. buka apidocs untuk menggunakan apinya.
 
 
 
